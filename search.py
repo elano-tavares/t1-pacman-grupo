@@ -76,26 +76,46 @@ def tinyMazeSearch(problem):
     return  [s, s, w, s, w, w, s, w]
 
 def depthFirstSearch(problem):
-    """
-    Search the deepest nodes in the search tree first.
+    pilha = util.Stack()
+    visitados = set()
 
-    Your search algorithm needs to return a list of actions that reaches the
-    goal. Make sure to implement a graph search algorithm.
+    pilha.push((problem.getStartState(), []))
 
-    To get started, you might want to try some of these simple commands to
-    understand the search problem that is being passed in:
+    while not pilha.isEmpty():
+        estado, caminho = pilha.pop()
 
-    print("Start:", problem.getStartState())
-    print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
-    print("Start's successors:", problem.getSuccessors(problem.getStartState()))
-    """
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+        if problem.isGoalState(estado):
+            return caminho
+
+        if estado not in visitados:
+            visitados.add(estado)
+
+            for sucessor, acao, custo in problem.getSuccessors(estado):
+                if sucessor not in visitados:
+                    pilha.push((sucessor, caminho + [acao]))
+
+    return []    
 
 def breadthFirstSearch(problem):
-    """Search the shallowest nodes in the search tree first."""
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    fila = util.Queue()
+    visitados = set()
+    
+    fila.push((problem.getStartState(), []))
+    
+    while not fila.isEmpty():
+        estado, caminho = fila.pop()
+    
+        if problem.isGoalState(estado):
+            return caminho
+    
+        if estado not in visitados:
+            visitados.add(estado)
+    
+            for sucessor, acao, custo in problem.getSuccessors(estado):
+                if sucessor not in visitados:
+                    fila.push((sucessor, caminho + [acao]))
+
+    return [] 
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
